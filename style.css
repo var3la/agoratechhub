@@ -1,0 +1,295 @@
+
+  :root{
+    --bg: #f1f1ef;
+    --navy: #1c3b57;
+    --navy-dark: #16304a;
+    --line: #7d97ab;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: var(--navy);
+  }
+
+  .section{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 30px 80px;
+  }
+
+  .section-title{
+    text-align:center;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--navy);
+    margin: 0 0 40px;
+    position: relative;
+  }
+
+  .section-title::before,
+  .section-title::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: var(--line);
+  }
+  .section-title::before{ left: 0; }
+  .section-title::after{ right: 0; }
+
+  .cards{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  /* ---------- CARD BASE ---------- */
+
+  .card{
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    cursor: default;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.35s ease;
+      display: none;
+  }
+    .card.visible {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  .card__bg{
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 20%;
+    filter: blur(3px) saturate(0.9);
+    transform: scale(1.06);
+    transition: filter 0.5s ease, transform 0.5s ease;
+  }
+
+  .card.is-active .card__bg{
+    filter: blur(0px) saturate(1);
+    transform: scale(1.0);
+  }
+
+  .card__eyebrow{
+    position:absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    opacity: 0.85;
+    z-index: 3;
+    transition: opacity 0.35s ease;
+  }
+  .card.is-active .card__eyebrow{ opacity: 0; }
+
+  /* --- Simple (default) content: "Hablamos con NAME" --- */
+
+  .card__content{
+    position: relative;
+    z-index: 2;
+    padding: 26px 26px 22px;
+    background: linear-gradient(180deg, rgba(240,238,232,0.45) 0%, rgba(240,238,232,0.78) 100%);
+    color: var(--navy);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+.card__content:after{
+  position: absolute;
+  content: '';
+  border-left: 1px solid var(--navy);
+  left: 25px;
+  top: 15px;
+  bottom: 15px;
+}
+  .card__label{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: #46647e;
+    margin: 0 0 2px;
+    padding-left: 14px;
+  }
+
+  .card__name{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    color: #7c93a4;
+    padding-left: 17px;
+    display:block;
+  }
+
+  .card__role{
+    padding-left: 17px;
+    font-size: 13px;
+    color: #46647e;
+    margin-top: 10px;
+  }
+  .card__role b{ color: var(--navy); }
+
+  .card__footer{
+    position: relative;
+    z-index: 2;
+    padding: 108px 26px 22px;
+    transition: opacity 0.3s ease;
+  }
+  .card__footer .rule{
+    height: 2px;
+    background: var(--line);
+    margin-bottom: 10px;
+  }
+  .card__logo{
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #fff;
+    position: relative;
+    width: fit-content;
+  }
+  .card__logo span{ font-weight: 300; font-style: italic; }
+  .card__logo:after {
+      position: absolute;
+      content: '';
+      inset: 0;
+      border-top: 2px solid #fff;
+      top: -12px;
+  }
+  /* Hide simple content when active */
+  .card.is-active .card__content,
+  .card.is-active .card__footer{
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    inset: auto 0 0 0;
+  }
+
+  /* ---------- ACTIVE / HOVER (featured) STATE ---------- */
+
+  .featured-layer{
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    display: none;
+  }
+  .card.is-active .featured-layer{
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    background-color: #1c3b5757;
+  }
+
+  .featured-top{
+    padding: 30px 30px 0;
+    background: linear-gradient(180deg, rgba(18,36,54,0.55) 0%, rgba(18,36,54,0.15) 60%, rgba(18,36,54,0) 100%);
+  }
+
+  .featured-top .who{ display:inline-block;width: fit-content;position: relative;margin-left: 20px; }
+  .featured-top .who:after {
+    content: '';
+    position: absolute;
+    border-left: 1px solid;
+    inset: -10px 0 -10px -20px;
+  }
+  .featured-name{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  .featured-role{
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+
+  .featured-spacer{ flex: 1; }
+
+  .featured-quote-block{
+    position: relative;
+    padding: 20px 26px 26px;
+    transform: translateY(12px);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+  }
+  .card.is-active .featured-quote-block{
+    opacity: 1;
+    transform: translateY(0);
+    background: linear-gradient(180deg, rgba(18,36,54,0) 0%, rgba(18,36,54,0.15) 40%, rgba(18,36,54,0.55) 100%);
+  }
+
+  .quote-header{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+  }
+  .quote-header .rule:first-child{flex:0 0 60%}
+  .quote-header .rule{
+    flex:1;
+    height:2px;
+    background: rgba(255,255,255,0.5);
+  }
+  .quote-mark{opacity: 0.9;fill:#fff;width: 40px;height: 40px;}
+  .quote-text{
+    font-size: 13px;
+    line-height: 1.6;
+    color: #dfe6ec;
+    margin: 0;
+  }
+
+  /* ---------- CTA ---------- */
+
+  .cta-wrap{ text-align:center; margin-top: 50px; }
+
+  .cta{
+    display:inline-block;
+    background: var(--navy);
+    color:#fff;
+    text-decoration:none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 16px 40px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background 0.2s ease;
+  }
+  .cta:hover{ background: var(--navy-dark); }
+
+  .bottom-rule{
+    width: 160px;
+    height: 1px;
+    background: var(--line);
+    margin: 50px auto 0;
+  }
+
+  @media (max-width: 900px){
+    .cards{ grid-template-columns: 1fr; }
+    .card{ min-height: 420px; }
+  }
